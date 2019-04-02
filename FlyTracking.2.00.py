@@ -368,26 +368,28 @@ class Manager(object):
         marge  = 5
 
         # Change thresholds
-        params.minThreshold = 10;
-        params.maxThreshold = 150;
+        params.minThreshold = 30;
+        params.maxThreshold = 110;
 
         # Filter by Area.
         params.filterByArea = True
-        params.minArea = 10
-        params.maxArea = 100
+        params.minArea = 30
+        params.maxArea = 80
         params.minDistBetweenBlobs = 5
 
         # Filter by Circularity
-        params.filterByCircularity = False
-        params.minCircularity = 0.1
+        params.filterByCircularity = True
+        params.minCircularity = 0.01
+        params.maxCircularity = 0.49
 
         # Filter by Convexity
-        params.filterByConvexity = False
-        params.minConvexity = 0.87
+        params.filterByConvexity = True
+        params.minConvexity = 0.25
 
         # Filter by Inertia
-        params.filterByInertia = False
+        params.filterByInertia = True
         params.minInertiaRatio = 0.01
+        params.maxInertiaRatio = 0.2
 
         #use blob detector to establish the extraction threshold
         detector = cv2.SimpleBlobDetector_create(params)
@@ -408,7 +410,7 @@ class Manager(object):
 
 
             print('blob stat:: median: %3.0f mean: %3.0f percentile_20: %3.0f std:%3.0f' % (np.median(ex_mat),np.mean(ex_mat),np.percentile(ex_mat,20),np.std(ex_mat)))
-            self.minThreshold = np.median(ex_mat)-0.8*np.std(ex_mat)
+            self.minThreshold = np.median(ex_mat)-0.85*np.std(ex_mat)
             print("minThreshold : ",self.minThreshold)
         else:
             print("no blob has been found")
@@ -555,7 +557,7 @@ if __name__ == '__main__':
                     help="# output directory")
     ap.add_argument("-m", "--magic", type=str, default=0,
                     help="# magic option")
-    ap.add_argument("-d", "--detectionArene", type=str, default='qrcode',
+    ap.add_argument("-d", "--detectionArene", type=str, default='manual',
                 help="# detection auto des arene no|auto|circle|qrcode")
     args = vars(ap.parse_args())
 
